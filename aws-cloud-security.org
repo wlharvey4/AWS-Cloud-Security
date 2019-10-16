@@ -1,0 +1,250 @@
+# -*- mode:org; fill-column:99; -*-
+
+#+title:AWS: Getting Started with Cloud Security
+#+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
+#+date:2019-10-15T20:05
+#+author:edX
+#+macro:version Version 0.0.1
+
+Let AWS Solutions Architects start you on your journey to secure your cloud resources.
+
+This course will focus on what you need to know to develop and use best security practices when
+using, building your applications on AWS.
+
+[[file:resources/images/course_logo.png]]
+
+* About the Course
+:PROPERTIES:
+:unnumbered: t
+:END:
+
+Data security is on the forefront of everyone’s mind these days, with data breaches, denial of
+service attacks, ransomware and malware being common news stories.
+
+In this course two of Amazon Web Services’ Solutions Architects will provide you with a
+foundational understanding of cloud security, compliance and the AWS shared responsibility
+model. They will then discuss more technical content by looking at various security controls such
+as identity and access management services, directory services, network isolation and connectivity
+options, auditing, monitoring, encryption and managing secrets.
+
+This course will cover a number of AWS services, such as Amazon VPC, Amazon CloudWatch, AWS
+CloudTrail, Amazon GuardDuty, AWS Security Hub, Amazon S3, Amazon EBS, Amazon EC2, and AWS Secrets
+Manager, among others.
+
+Several demonstrations are provided throughout the course to provide a practical example of the
+concepts that have been discussed. Class discussions will provide an opportunity for you to
+interact with fellow students as well as AWS training staff.
+
+- Length :: 4 weeks
+- Effort :: 2–4 hours per week
+- Institution :: AWS
+- Level :: Introductory
+
+** What You Will Learn
+- How the AWS Shared Responsibility Model is used to differentiate between security of the cloud
+  and security in the cloud
+- How to use network isolation to protect cloud resources
+- How to audit and monitor applications using services such as Amazon CloudWatch, Amazon GuardDuty
+  and AWS Security Hub
+- The difference between encryption of data at rest and data in transit
+- How to protect compute resources
+- How to manage secrets
+
+** The Instructors
+{{{heading(Rudy Chetty)}}}
+
+{{{subheading(Senior Solutions Architect)}}}
+
+Rudy has been with Amazon Web Services for more than 2 years. He is a Solutions Architect and works
+across segments like robotics, fulfillment and last mile.  He is originally from Cape Town, South
+Africa and is a big fan of education.
+
+{{{heading(Hong Pham)}}}
+
+{{{subheading(Solutions Architect)}}}
+
+Hong has been with Amazon Web Services for more than 4 years, and is currently a Solutions
+Architect. She was born in Vietnam and moved to the US ten years ago. She attended the University
+of Utah where she studied marketing and information systems.
+
+* 1. Introduction to Cloud Security
+
+** Introduction to AWS Cloud Security
+- Fundamentals of cloud security
+  - shared responsibility security model
+- Compliance in AWS
+- Account managment
+
+** The AWS Shared Responsibility Model
+-  https://aws.amazon.com/compliance/shared-responsibility-model/
+
+[[file:resources/images/shared_responsibility_model-50.png]]
+
+#+cindex:security and compliance
+#+cindex:shared responsibility
+Security and Compliance is a shared responsibility between AWS and the customer.  This shared model
+can help relieve customer’s operational burden as AWS operates, manages and controls the components
+from the host operating system and virtualization layer down to the physical security of the
+facilities in which the service operates.
+
+#+cindex:security group firewall
+The customer assumes responsibility and management of the guest operating system (including updates
+and security patches), other associated application software as well as the configuration of the
+AWS provided security group firewall.  Customers should carefully consider the services they choose
+as their responsibilities vary depending on the services used, the integration of those services
+into their IT environment, and applicable laws and regulations.  The nature of this shared
+responsibility also provides the flexibility and customer control that permits the deployment.
+
+#+cindex:shared responsibiltiy model
+{{{heading(AWS Security Services)}}}
+
+[[file:resources/images/shared_responsibility_model_v2-50.png]]
+
+AWS is responsible for protecting the infrastructure that runs all of the services offered in the
+AWS Cloud.  This infrastructure is composed of the hardware, software, networking, and facilities
+that run AWS Cloud services.
+
+AWS is responsible for security “of the cloud”
+- S3
+- IoT Core
+- Amazon SageMaker
+- Amazon RDS
+
+AWS is also responsible for securing the infrastructure of its regions.
+- AWS global infrastructure
+- Regions
+- Availability zones
+- Edge locations
+
+- AWS Identity and Access Management (IAM)
+- Amazon Cognito
+
+
+{{{heading(Customer Responsibilities)}}}
+
+Customer responsibility will be determined by the AWS Cloud services that a customer selects.  This
+determines the amount of configuration work the customer must perform as part of their security
+responsibilities.
+
+#+cindex:Elastic Compute Cloud EC2
+#+cindex:EC2
+#+cindex:Infrastructure as a Service Iaas
+#+cindex:IaaS
+#+cindex:security group, firewall
+#+cindex:firewall, security group
+For example, a service such as Amazon Elastic Compute Cloud (Amazon EC2) is categorized as
+Infrastructure as a Service (IaaS) and, as such, requires the customer to perform all of the
+necessary security configuration and management tasks.  Customers that deploy an Amazon EC2
+instance are responsible for management of the guest operating system (including updates and
+security patches), any application software or utilities installed by the customer on the
+instances, and the configuration of the AWS-provided firewall (called a security group) on each
+instance.
+
+#+cindex:abstracted services
+#+cindex:S3
+#+cindex:DynamoDB
+For abstracted services, such as Amazon S3 and Amazon DynamoDB, AWS operates the infrastructure
+layer, the operating system, and platforms, and customers access the endpoints to store and
+retrieve data.  Customers are responsible for managing their data (including encryption options),
+classifying their assets, and using IAM tools to apply the appropriate permissions.
+
+The customer is responsible for security “in the cloud”
+- whatever you build must be secured by you
+- home alarm system; AWS provides it, but you need to operate it
+
+** Compliance
+
+Detailed information about AWS Compliance programs can be found here:
+- https://aws.amazon.com/compliance/
+- https://aws.amazon.com/compliance/data-center/
+
+#+cindex:compliance
+- PCI compliant
+
+
+#+cindex:scope of compliance efforts
+We include services in the scope of our compliance efforts based on the expected use case, feedback
+and demand.  If a service is not currently listed as in scope of the most recent assessment, it
+does not mean that you cannot use the service.  It is part of the shared responsibility for your
+organization to determine the nature of the data.  Based on the nature of what you are building on
+AWS, you should determine if the service will process or store customer data and how it will or
+will not impact the compliance of your customer data environment.
+
+*** Best Practices
+- Understand compliance objectives and requirements
+- Establish controlled environment that meets objectives and requirements
+- Understand validation required based on your organization’s risk tolerance
+- Verification of operating effectiveness of controlled environment
+** Creating an Account
+
+** Multiple Accounts
+
+** Identity & Access Services---Part 1
+
+** Identity & Access Services---Part 2
+
+* 2. Securing the Infrastructure
+
+** Introduction to Networks
+
+** Network Isolation
+
+** Network Isolation with VPC
+
+** VPC Endpoint and Private Link
+
+** Detective Controls
+
+** Auditing
+
+** Monitoring CloudWatch and CloudWatch Logs
+
+** Monitoring Guard Duty and Security Hub
+
+** Demo---AWS Config
+
+* 3. Data Protection
+
+** Introduction to Data
+
+** Data Types
+
+** Encryption in Transit
+
+** Encryption at Rest
+
+** Databse Encryption
+
+** Amazon S3
+
+** EBS Encryption
+
+** Demo---Cross Acount Access to S3
+
+* 4. Securing the Application
+
+** Introduction to Compute Resources
+
+** Protecting Compute Resources
+
+** Protecting the Endpoint
+
+** Managing Secrets
+
+** Demo---AWS Secrets Manager
+
+** The Well-Architected Tool
+
+* Concept Index
+:PROPERTIES:
+:index:    cp
+:unnumbered: t
+:END:
+* Macro Definitions                                                :noexport:
+#+macro:heading @@texinfo:@heading @@$1
+#+macro:subheading @@texinfo:@subheading @@$1
+* Local Variables                                                  :noexport:
+# Local Variables:
+# time-stamp-pattern:"8/^\\#\\+date:%4:y-%02m-%02dT%02H:%02M$"
+# eval: (electric-quote-local-mode)
+# End:
