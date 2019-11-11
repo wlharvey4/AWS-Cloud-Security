@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.1
+#+macro:version Version 0.0.2
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -68,12 +68,16 @@ Architect. She was born in Vietnam and moved to the US ten years ago. She attend
 of Utah where she studied marketing and information systems.
 
 * 1. Introduction to Cloud Security
+Week 1 is all about the basics. 
 
 ** Introduction to AWS Cloud Security
 - Fundamentals of cloud security
   - shared responsibility security model
 - Compliance in AWS
 - Account managment
+  - creating accounts
+  - managing multiple accounts
+  - securing account and api service calls
 
 ** The AWS Shared Responsibility Model
 -  https://aws.amazon.com/compliance/shared-responsibility-model/
@@ -82,33 +86,61 @@ of Utah where she studied marketing and information systems.
 
 #+cindex:security and compliance
 #+cindex:shared responsibility
-Security and Compliance is a shared responsibility between AWS and the customer.  This shared model
-can help relieve customer’s operational burden as AWS operates, manages and controls the components
-from the host operating system and virtualization layer down to the physical security of the
-facilities in which the service operates.
+Security and Compliance is a /shared responsibility/ between AWS and the customer.  This shared
+model can help relieve customer’s operational burden as AWS operates, manages and controls the
+components from the host operating system and virtualization layer down to the physical security of
+the facilities in which the service operates.
+
+Amazon provides AWS Security Services, such as:
+- AWS Identity and Access Management (IAM)
+- Amazon Cognito
+
 
 #+cindex:security group firewall
-The customer assumes responsibility and management of the guest operating system (including updates
-and security patches), other associated application software as well as the configuration of the
-AWS provided security group firewall.  Customers should carefully consider the services they choose
-as their responsibilities vary depending on the services used, the integration of those services
-into their IT environment, and applicable laws and regulations.  The nature of this shared
-responsibility also provides the flexibility and customer control that permits the deployment.
+The customer assumes responsibility and management of:
+- the guest operating system (including updates and security patches),
+- other associated application software as well as
+- the configuration of the AWS provided security group firewall.
 
+
+{{{subheading(Responsibilities vary based upon chosen services)}}}
+
+Customers should carefully consider the services they choose as their responsibilities vary
+depending on the services used, the integration of those services into their IT environment, and
+applicable laws and regulations.  The nature of this shared responsibility also provides the
+flexibility and customer control that permits the deployment.
+
+*** AWS Security Services---Responsibilities
 #+cindex:shared responsibiltiy model
-{{{heading(AWS Security Services)}}}
 
 [[file:resources/images/shared_responsibility_model_v2-50.png]]
 
-AWS is responsible for protecting the infrastructure that runs all of the services offered in the
-AWS Cloud.  This infrastructure is composed of the hardware, software, networking, and facilities
-that run AWS Cloud services.
+{{{subheading(Security “of” the Cloud)}}}
+AWS is responsible for security “of the Cloud”:
+- accounts
+- networking
+- access
+- infrastructure
+
+
+{{{subheading(Infrastructure)}}}
+
+AWS is responsible for protecting the /infrastructure/ that runs all of the services offered in the
+AWS Cloud.  This infrastructure is composed of:
+  - the hardware,
+  - software,
+  - networking, and
+  - facilities that run AWS Cloud services.
+
 
 AWS is responsible for security “of the cloud”
 - S3
 - IoT Core
 - Amazon SageMaker
 - Amazon RDS
+
+
+{{{subheading(Region Security)}}}
 
 AWS is also responsible for securing the infrastructure of its regions.
 - AWS global infrastructure
@@ -120,7 +152,7 @@ AWS is also responsible for securing the infrastructure of its regions.
 - Amazon Cognito
 
 
-{{{heading(Customer Responsibilities)}}}
+*** AWS Customer Responsibilities
 
 Customer responsibility will be determined by the AWS Cloud services that a customer selects.  This
 determines the amount of configuration work the customer must perform as part of their security
@@ -147,6 +179,8 @@ For abstracted services, such as Amazon S3 and Amazon DynamoDB, AWS operates the
 layer, the operating system, and platforms, and customers access the endpoints to store and
 retrieve data.  Customers are responsible for managing their data (including encryption options),
 classifying their assets, and using IAM tools to apply the appropriate permissions.
+
+{{{subheading(Security “in” the Cloud)}}}
 
 The customer is responsible for security “in the cloud”
 - whatever you build must be secured by you
@@ -247,4 +281,5 @@ will not impact the compliance of your customer data environment.
 # Local Variables:
 # time-stamp-pattern:"8/^\\#\\+date:%4:y-%02m-%02dT%02H:%02M$"
 # eval: (electric-quote-local-mode)
+# eval: (org-indent-mode)
 # End:
