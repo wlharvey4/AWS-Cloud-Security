@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.2
+#+macro:version Version 0.0.3
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -186,30 +186,104 @@ The customer is responsible for security “in the cloud”
 - whatever you build must be secured by you
 - home alarm system; AWS provides it, but you need to operate it
 
-** Compliance
+** AWS Compliance
 
 Detailed information about AWS Compliance programs can be found here:
 - https://aws.amazon.com/compliance/
 - https://aws.amazon.com/compliance/data-center/
 
-#+cindex:compliance
-- PCI compliant
 
+Two example compliance programs and standards that owners need to follow if their application fits
+these requirements.
+
+#+cindex:compliance
+- PCI compliant (Payment Card Industry)
+- FedRAMP compliant - Build a highly confidential system to store secrets
+
+
+The application owner needs to maintain adequate governance over the entire IT controleld
+environment.
+
+{{{heading(Best Practices for Compliance)}}}
+
+1. Understand compliance objectives and requirements
+2. Establish a contolled environment that meets those objectives and requirements
+3. Understand the validation requirement based on organization’s risk tolerance
+4. Need verification of the operating effectivenes of the controlled environment
+
+
+{{{heading(Shared Responsibility for Compliance)}}}
+
+It is a shared responsibility model between the application owner and AWS.  AWS’s part in this
+shared responsibility includes providing its services on a highly secure and controlled platform;
+and providing a wide array of security features that the owner can use.
+
+The owner’s responsibility includes configuring the IT environment in a secure and controlled
+manner for its purposes.  AWS communicates its security and control information to customers.  The
+owner can check if a specific AWS service is compliant with specific programs by visiting the [[https://aws.amazon.com/compliance/services-in-scope/][AWS
+Services in Scope portal]].
+
+{{{heading(AWS Services in Scope)}}}
 
 #+cindex:scope of compliance efforts
+#+begin_quote
 We include services in the scope of our compliance efforts based on the expected use case, feedback
 and demand.  If a service is not currently listed as in scope of the most recent assessment, it
 does not mean that you cannot use the service.  It is part of the shared responsibility for your
 organization to determine the nature of the data.  Based on the nature of what you are building on
 AWS, you should determine if the service will process or store customer data and how it will or
 will not impact the compliance of your customer data environment.
+#+end_quote
 
 *** Best Practices
 - Understand compliance objectives and requirements
 - Establish controlled environment that meets objectives and requirements
 - Understand validation required based on your organization’s risk tolerance
 - Verification of operating effectiveness of controlled environment
-** Creating an Account
+** Creating an AWS Account
+An owner needs an AWS account.  This allows the owner to access the console and to provision other
+users, which opens up other channels of interaction, such as:
+- CLI command-line interface
+- programmatic access
+- API calls
+- use SDKs to interact with the AWS account
+
+
+{{{heading(Principle of Least Privilege)}}}
+
+Upon first creating an account, you will be interacting with the super user, or root user,
+account.  As the super user, the owner can do anything and everything, including causing
+irreparable harm, such as deleting resources that should not have been deleted.  It is therefore a
+/best practice/ to create individual user accounts for each user (including the owner) and provide
+them with relevant access according to the /Principle of Least Privilege/.  This means that an
+owner should provision the minimum needed access policies so users can perform the work they need,
+but no more.
+
+{{{heading(Adding New Users)}}}
+
+You can create users via the IAM console by choosing a user name and password and defining how they
+can access AWS (via the console or programmatically), and then adding policies that stipulate the
+resources they can access.
+
+For example, to create a new admin user, you attach the “administrator access policy”, which is a
+JSON document that describes the policy.
+
+{{{heading(Multifactor Authentication)}}}
+
+An additional layer of protection can be added to new users as well: MFA, or “Mutlifactor
+Authentication.”  This should also be enabled for the super user account.  Upon seeking to log in,
+the user will be queried for an additional code to enter, which can come from a variety of sources,
+such as:
+- Google Authenticator, a code
+- YubiKey, a security key
+- Gemalto Token, a token device
+
+
+Other best practices include:
+
+- using strong passwords
+- using roles and groups to assign permissions
+- monitoring using CloudWatch and CloudTrail
 
 ** Multiple Accounts
 
@@ -275,8 +349,8 @@ will not impact the compliance of your customer data environment.
 :unnumbered: t
 :END:
 * Macro Definitions                                                :noexport:
-#+macro:heading @@texinfo:@heading @@$1
-#+macro:subheading @@texinfo:@subheading @@$1
+#+macro:heading @@texinfo:@heading $1@@@@latex:\section* {$1}@@
+#+macro:subheading @@texinfo:@subheading $1@@@@latex:\subsection* {$1}@@
 * Local Variables                                                  :noexport:
 # Local Variables:
 # time-stamp-pattern:"8/^\\#\\+date:%4:y-%02m-%02dT%02H:%02M$"
