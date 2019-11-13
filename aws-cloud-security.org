@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.3
+#+macro:version Version 0.0.4
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -286,6 +286,88 @@ Other best practices include:
 - monitoring using CloudWatch and CloudTrail
 
 ** Multiple Accounts
+This section discusses how to handle a growing number of users, teams, organizations, and
+accounts.  For example, let’s say you have two AWS accounts, one for storing data in S3, called
+“DataAccount”, and one for developers to build applications, called “DevAccount”.
+
+*** IAM Roles
+You can delegate access across AWS accounts using IAM /roles/.  You have multiple IT engineers who
+are tasked to manage AWS accounts and resources.  As an IT manager, you need to grant AWS admin
+access for your engineers.  You can create an IAM group for admin users and assign IAM users to the
+group.
+
+1. From the IAM Console, create a new group, and name it “AdminGroup”.
+
+2. Associate an IAM policy with the new group.  Because the group is for admin users, search for
+   the “AdministratorAccess” IAM policy.
+
+3. Create the group.
+
+4. Create an IAM user who will be made a member of the group.  Give the user a name, such as
+   “Admin_IT_Joe”.  Give the user appropriate access, such as programmatic access and management
+   console access.  Also take care of password creation.
+
+5. Associate permissions with the new user.  There are three options to create permissions for a
+   user:
+
+   i. add the user to an IAM group;
+
+   ii. copy permissions from another user;
+
+   iii. attach existing policies directly to the user.
+
+6. In this case, add the user to the group that was created, “AdminGroup”.
+
+7. Consider adding tags to the user, such as =Department::IT”
+
+8. Create the user and download or email the configuration information for the new user.
+
+*** AWS Organizations
+How do you scale and automate AWS account creations?  How do you make sure each team and
+organization has the appropriate permissions to use the appropriate AWS services and resources?
+How to roll all AWS bills into one master account?  Utilize AWS Organizations.
+
+Using AWS Organizations, you can:
+
+- centrally govern your environment as you grow and scale;
+- automate account creation and management;
+- create groups of accounts to reflect business needs;
+- govern access to AWS services and resources by Region by policies;
+- set up a single payment method for all AWS accounts with consoldated billing;
+- share resources across accounts
+
+
+1. Choose an AWS account as a master account;
+
+2. Create an organization in this master account;
+
+3. When you use organizations to create a new account, an IAM role will be created so that the
+   master account can switch roles to access your member account;
+
+4. Either create an organizational unit (OU), or accounts (member accounts), under the
+   organization.
+
+5. Create service control policies to OU or member accounts;
+
+
+{{{heading(Best Practices for Organizations)}}}
+
+1. Plan ahead for the structure of your organization;
+
+2. Keep the master account free of any operational AWS resources;
+
+3. Use CloudTrail in the master account to centrally track all AWS usage in the member accounts;
+
+4. Apply the principle of least privilege; when setting up policies for OUs, assign as few
+   privileges as possible;
+
+5. Assign policies to to OUs rather than accounts;
+
+6. Test new and modified policies on a single account before scaling up to organizational units;
+
+7. Use the APIs and AWS CloudFormation templates to ensure that every newly created account is
+   configured properly.  The template can create IAM user roles and policies; it can also set up
+   logging, create and configure VPCs, and so forth.
 
 ** Identity & Access Services---Part 1
 
