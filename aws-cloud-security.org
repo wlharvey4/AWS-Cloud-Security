@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.4
+#+macro:version Version 0.0.5
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -240,7 +240,7 @@ will not impact the compliance of your customer data environment.
 - Establish controlled environment that meets objectives and requirements
 - Understand validation required based on your organization’s risk tolerance
 - Verification of operating effectiveness of controlled environment
-** Creating an AWS Account
+** The AWS Account
 An owner needs an AWS account.  This allows the owner to access the console and to provision other
 users, which opens up other channels of interaction, such as:
 - CLI command-line interface
@@ -290,6 +290,9 @@ This section discusses how to handle a growing number of users, teams, organizat
 accounts.  For example, let’s say you have two AWS accounts, one for storing data in S3, called
 “DataAccount”, and one for developers to build applications, called “DevAccount”.
 
+For more information about IAM users and groups, see
+- [[https://docs.aws.amazon.com/IAM/latest/UserGuide/id.html][Identities (Users, Groups, and Roles)]]
+
 *** IAM Roles
 You can delegate access across AWS accounts using IAM /roles/.  You have multiple IT engineers who
 are tasked to manage AWS accounts and resources.  As an IT manager, you need to grant AWS admin
@@ -326,6 +329,11 @@ group.
 How do you scale and automate AWS account creations?  How do you make sure each team and
 organization has the appropriate permissions to use the appropriate AWS services and resources?
 How to roll all AWS bills into one master account?  Utilize AWS Organizations.
+
+For more information on AWS Organizations, see:
+- https://aws.amazon.com/organizations/
+- [[https://console.aws.amazon.com/organizations/home?#/getting-started][Tutorial on getting started with AWS Organizations]]
+
 
 Using AWS Organizations, you can:
 
@@ -368,6 +376,85 @@ Using AWS Organizations, you can:
 7. Use the APIs and AWS CloudFormation templates to ensure that every newly created account is
    configured properly.  The template can create IAM user roles and policies; it can also set up
    logging, create and configure VPCs, and so forth.
+
+*** Tutorial on Cross-Account Access Delegation Using Roles
+- [[https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html][Delegate Access Across AWS Accounts Using IAM Roles]]
+
+
+This tutorial teaches you how to use a /role/ to delegate access to resources that are in different
+AWS accounts that you own (Production and Development).  You /share resources/ in one account with
+users in a different account.  By setting up /cross-account access/ in this way, you don't need to
+create individual IAM users in each account.  In addition, users don't have to sign out of one
+account and sign into another in order to access resources in different AWS accounts.  After
+configuring the role, you see how to use the role from the AWS Management Console, the AWS CLI, and
+the API.
+
+{{{heading(Scenario)}}}
+
+In this tutorial, imagine that the *Production* account is where live applications are managed.
+The *Development* account is a sandbox where developers and testers can freely test applications.
+In each account, application information is stored in *Amazon S3 buckets*.
+
+You manage *IAM users* in the Development account, where you have two *IAM groups*: *Developers*
+and *Testers*.  Users in both groups have permissions to work in the Development account and access
+resources there.
+
+From time to time, a developer must update the live applications in the Production account.  These
+applications are stored in an Amazon S3 bucket called =productionapp=.
+
+At the end of this tutorial, you have the following:
+
+- /Users/ in the Development account (the trusted account) that are allowed to assume a specific role
+  in the Production account.
+
+- A /role/ in the Production account (the trusting account) that is allowed to access a specific
+  Amazon S3 bucket.
+
+- The =productionapp= bucket in the Production account.
+
+
+Developers can use the *role* in the /AWS Management Console/ to access the =productionapp= bucket
+in the Production account.  They can also access the bucket by using /API calls/ that are
+authenticated by *temporary credentials* provided by the role.  Similar attempts by a Tester to use
+the role fail.
+
+This workflow has three basic steps (see [[tutorial-cross-accounts-png][diagram]]).
+
+#+caption:Three basic steps in the workflow
+#+name:tutorial-cross-accounts-png
+[[file:./images/tutorial-cross-accounts.png]]
+
+{{{heading(Prerequisites)}}}
+
+This tutorial assumes that you have the following already in place:
+
+- Two separate AWS accounts that you can use, one to represent the *Development* account, and one to
+  represent the *Production* account.
+
+- *Users* and *groups* in the Development account created and configured as follows:
+
+
+| User    | Group      | Permissions                                                                                   |
+|---------+------------+-----------------------------------------------------------------------------------------------|
+| David   | Developers | Both users are able to sign in and use the AWS Management Console in the Development account. |
+| Theresa | Testers    |                                                                                               |
+
+**** Step 1---Create a Role
+First, you use the AWS Management Console to establish trust between the Production account (ID
+number 999999999999) and the Development account (ID number 111111111111).  You start by creating
+an *IAM role* named “UpdateApp”.  When you create the role, you define the Development account as a
+/trusted entity/ and specify a /permissions policy/ that allows trusted users to update the
+=productionapp= bucket.
+
+**** Step 2---Grant access to the Role
+In this step of the tutorial, you modify the *IAM group policy* so that Testers are denied access
+to the “UpdateApp” role.  Because Testers have PowerUser access in this scenario, we must explicitly
+deny the ability to use the role.
+
+**** Step 3---Test access by switching Roles
+Finally, as a Developer, you use the “UpdateApp” role to update the =productionapp= bucket in the
+Production account.  You see how to access the role through the AWS console, the AWS CLI, and the
+API.
 
 ** Identity & Access Services---Part 1
 
