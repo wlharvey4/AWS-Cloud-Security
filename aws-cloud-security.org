@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.5
+#+macro:version Version 0.0.6
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -457,7 +457,38 @@ Production account.  You see how to access the role through the AWS console, the
 API.
 
 ** Identity & Access Services---Part 1
+This section discusses how to authenticate and authorize users to access AWS resources.
 
+There are three use cases related to providing access:
+
+1. When the user accesses an AWS account and resources.  An example would be when you enable single
+   sign-on for an AWS account to let a developer log in to an AWS account using credentials from
+   your corporate identity to create and run an AWS Lambda function.  Another example would be when
+   you are building an internal reporting portal hosed on AWs that only allows internal employees
+   of your company to log in and see the reports.  Since your companies already have existing
+   corporate identities on an Active Directory, you can federate this Active Directory with Amazon
+   Cognito.
+
+2. A second use case would be allowing resources access to other resources.  To allow your
+   applications to access AWS services, you need to be able to validate the identity and
+   permissions of your application’s resources.  For example, your containerized application runs
+   on Elastic Kubernetes Service and needs to do an API call to query a table in AWS NoSQL database
+   DynamoDB.  You will need to securely validate API calls and manage permissions for actions that
+   your app is allowed to perform on DynamoDB tables using short-term credentials called IAM
+   roles.  Using roles helps you follow security best-practices for granting least privilege access
+   and enables you to manage fine-grained permissions for your AWS services and applications.  IAM
+   roles enable you to grant resource access to data without distributing passwords or API keys, or
+   hard-coding credentials in your source code.
+
+3. The last use case is to allow end users to access the application.  Your application would need
+   to manage user sign up and sign in, and you also need to enable multi-factor authentication when
+   users sign in.
+
+*** Five Services Related to the Use Cases
+
+**** AWS Organizations
+
+**** AWS Identity and Access Management---IAM
 ** Identity & Access Services---Part 2
 
 * 2. Securing the Infrastructure
