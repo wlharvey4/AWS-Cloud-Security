@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.8
+#+macro:version Version 0.0.9
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -606,8 +606,46 @@ This is useful if you want to reuse an existing on-premises Microsoft Active Dir
 caching any information in the cloud.
 
 * 2. Securing the Infrastructure
+Week 1 introduced some basic concepts.  Week 2 will go deeper, focusing on infrastructure
+security.  Big topics will include:
+
+- network isolation
+- monitoring
+- auditing
 
 ** Introduction to Networks
+This section discusses /network isolation/. 
+
+{{{heading(Access Points---Endpoints)}}}
+
+AWS has placed a limited number of access points to the cloud to allow for more comprehensive
+monitoring of inbound and outbound network traffic.  These access points are called /endpoints/.
+An endpoint is a URL that is the entry point for a web service.
+
+{{{subheading(Regions)}}}
+
+Some services, such as IAM, do not support Regions; therefore, their endpoints do not include a
+Region.  However, if a service supports Regions, those resources in that Region are independent.
+For example, US-West-2 is an entry point for all AWS services in that Region.
+
+{{{subheading(Secure HTTP)}}}
+
+Endpoints allow secure HTTP access (HTTPS).  This allows you to establish a secure communication
+session with your resource running in AWS services.
+
+{{{heading(Amazon Virtual Private Cloud)}}}
+
+As you build out an infrastructure, you will want to isolate certain pieces to minimize the surface
+area that can be attacked.  Additional services can be set up inside the secure infrastructure.
+
+AWS offers the  Amazon Virtual Private Cloud, which provides a private network within the AWS
+Cloud.  Amazon VPC provides not only isolation from other customers in the private cloud, but it
+also provides Layer 3 isolation from the Internet as well. 
+
+The Amazon VPC uses IP address spaces, allocated by you.  These can be used to build a private
+infrastructure, where networks are isolated from the Internet.  You connect your on-premises
+environment or other VPN infrastructures to Amazon VPC using IPSec tunnels and AWS Direct Connect.
+You can also allow resources in your VPC to talk to the Internet if you choose to do so.
 
 ** Network Isolation
 
