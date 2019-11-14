@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.6
+#+macro:version Version 0.0.7
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -484,12 +484,64 @@ There are three use cases related to providing access:
    to manage user sign up and sign in, and you also need to enable multi-factor authentication when
    users sign in.
 
-*** Five Services Related to the Use Cases
-
-**** AWS Organizations
-
-**** AWS Identity and Access Management---IAM
 ** Identity & Access Services---Part 2
+Here are five services related to the three use cases given in the previous section.
+*** AWS Organizations
+AWS Organizations is a service to help you create and manage multiple accounts.  It also provides
+consolidated billing, which rolls up billings from multiple AWS accounts to a central master
+account.
+
+*** AWS Identity and Access Management
+IAM enables you to manage access to AWS services and resources securely.  Using IAM, you create and
+manage AWS users and groups, and use permissions to allow and deny their access to AWS resources.
+
+1. Manage IAM users and their access.
+
+2. Manage IAM roles and their permissions.
+
+3. Manage federated users and their permissions.  You can use any identity management solution that
+   supports SAML 2.0 or use one of AWS’s federation samples, such as AWS Console SSO or API
+   Federation.
+
+**** Assign Permissions by Creating Policies
+To assign permissions to a user, group, role, or resource, create an IAM policy by using either the
+visual editor or any JSON editor.  The visual editor guides you through granting permissions by
+using IAM policies without requiring you to write the policies in JSON.
+
+You can use the IAM policy simulator to test newly created policies.
+
+**** Apply Policies
+You can apply an AWS managed policy, a customer-managed policy, or an inline policy for an IAM
+identity, such as a user or group.  The different types of policies are for different use cases.
+In most cases AWS recommends that you use managed policies.
+
+***** AWS Managed Policy
+An AWS managed policy is a stand-alone policy that is created and administered by AWS.  They are
+designed to provide permissions for many common use cases.
+
+***** Customer-Managed Policy
+A customer-managed policy is a stand-alone policy that you create and administer in your AWS
+account.
+
+***** Inline Policy
+An inline policy is a policy that is embedded in a principal entity, such as a user, group, or
+role.
+
+*** AWS Single Sign-On
+SSO is a cloud service that makes it easy to centrally manage SSO access to multiple AWS accounts
+and business applications.  It helps you manage SSO access and user permissions across all AWS
+accounts in AWS Organizations.  It includes a user portal, where you can let your end users find
+and access their assigned AWS accounts, the cloud applications, and customer applications in one
+place.
+
+Users sign in to use a user portal with credentials they configure in AWS SSO or using their
+existing corporate credentials to access all of their assigned accounts and applications in one
+place.
+
+*** Amazon Cloud Directory
+Amazon Cloud Directory enables you to build flexible cloud-native directories for organizing
+hierarchies of data along multiple dimensions.  With Cloud Directory you can create directories for
+a variety of use cases, such as organizational charts, course catalogs, and device registries.
 
 * 2. Securing the Infrastructure
 
