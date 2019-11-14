@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.9
+#+macro:version Version 0.0.10
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -613,7 +613,7 @@ security.  Big topics will include:
 - monitoring
 - auditing
 
-** Introduction to Networks
+** Network Isolation
 This section discusses /network isolation/. 
 
 {{{heading(Access Points---Endpoints)}}}
@@ -647,9 +647,32 @@ infrastructure, where networks are isolated from the Internet.  You connect your
 environment or other VPN infrastructures to Amazon VPC using IPSec tunnels and AWS Direct Connect.
 You can also allow resources in your VPC to talk to the Internet if you choose to do so.
 
-** Network Isolation
-
 ** Network Isolation with VPC
+A Virtual Private Cloud is a way to logically separate your AWS infrastructure from other
+customers.  The AWS Account is the first layer.  The VPC is the second layer.
+
+{{{heading(Subnets)}}}
+
+Inside the VPC, you can set up /subnets/, or logical divisions of allocated IPs.  For example, EC2
+instances can be configured to allow access to the Internet, so they are put into a /public
+subnet/.
+
+{{{subheading(Network Access Control Lists---NACLs)}}}
+
+This done using NACLs, /network access control lists/.  These lists contain IPs which are allowed
+or denied access to the subnet.  They are also stateless, so if you allow something in, you must
+explicitly allow it out via a rule.
+
+{{{subheading(Private Subnets)}}}
+
+If you don’t want to allow a service access to the Internet, place it behind a private subnet.
+
+{{{heading(Security Groups)}}}
+
+If you want to protect a single EC2 instance, for example, you can provision a /security group/ for
+it.  Security groups act as firewalls for associated Amazon EC2 instances, controlling both inbound
+and outbound traffic at the instance level.  This fine-grained access is defined by =allow= rules.
+Security groups are stateful so return traffic is automatically allowed.
 
 ** VPC Endpoint and Private Link
 
