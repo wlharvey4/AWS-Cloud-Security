@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.7
+#+macro:version Version 0.0.8
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -542,6 +542,68 @@ place.
 Amazon Cloud Directory enables you to build flexible cloud-native directories for organizing
 hierarchies of data along multiple dimensions.  With Cloud Directory you can create directories for
 a variety of use cases, such as organizational charts, course catalogs, and device registries.
+
+** Directory Services and Identity Stores
+This sections discusses the management of end users, not those using IAM authentication and
+authorization.  It also discusses how to incorporate existing identity stores you may already have.
+
+It is a *best practice* to logically separate your infrastructure users and end users.  This means
+you can manage them independently and avoid overlap of process.
+
+*** Amazon Cognito
+{{{heading(Cognito User Pools)}}}
+
+Amazon Cognito provides an identity store called /Cognito User Pools/.  This would store all your
+users so that registration, authentication, and password resets are handled by the User Pool.
+
+{{{heading(Cognito Identity Pools)}}}
+
+Users would require access to resources.  This is where /Cognito Identity Pools/ comes in and allow
+authorized access to AWS resources.
+
+If you have an existing identity store, you can /federate/, or link an electronic identity across
+multiple systems.  With Cognito, you can do that with Identity Pool, which means linking your
+Cognito User Pool with, say, an OpenID Connect Provider or even log in with Facebook or Google.
+
+*** AWS Directory Service for Microsoft Active Directory
+What if you need to integrate with a Microsoft Directory identity store?  AWS provides a service
+called AWS Directory Service for Microsfot Active Directory, or /AWS Managed Microsoft Active
+Directory/ for short.  One way you can use it is to federate, which allows you to use EC2, RDS for
+SQL, and other services that utilize Active Directory with your identity store and avoid having to
+re-create all your users from scratch.  
+
+You can still use Managed AD as a stand-alone service, which is usually for customers who do not
+have an existing identity store.
+
+*** Single Sign-On
+You can also use SSO to provide a seamless integration betwen different services.  SSO means that a
+user would log in once and then be able to access, say, two different applications without having
+to log in to each one individually.
+
+*** Simple AD
+If you don’t need the full feature set, or deployment footprint needed by Managed AD, you can use
+/Simple AD/, which is a stand-alone managed directory that is available in two sizes:
+
+- small for up to 500 users
+- large for up to 5000 users
+
+
+This means you do not have manage user accounts and build a mechanism around it.  Some of the
+benefits of Simple AD are:
+
+- plug-and-play with apps that use Active Directory;
+- access to AWS applications like Amazon Workspaces, Amazon WorkDocs, or Amazon WorkMail;
+- point-in-time recovery along with daily automated snapshots.
+
+
+The service is simplified, however.  You do not get certain capabilities with Simple AD, such as:
+
+- AWS SSO
+- support for Amazon RDS for SQL server
+
+*** Active Directory Connector
+This is useful if you want to reuse an existing on-premises Microsoft Active Directory without
+caching any information in the cloud.
 
 * 2. Securing the Infrastructure
 
