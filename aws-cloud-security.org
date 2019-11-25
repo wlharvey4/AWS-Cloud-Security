@@ -4,7 +4,7 @@
 #+subtitle:edX AWS:OTP-AWSD7 {{{version}}} ({{{date}}})
 #+date:2019-10-15T20:05
 #+author:edX
-#+macro:version Version 0.0.10
+#+macro:version Version 0.0.11
 
 Let AWS Solutions Architects start you on your journey to secure your cloud resources.
 
@@ -609,14 +609,15 @@ caching any information in the cloud.
 Week 1 introduced some basic concepts.  Week 2 will go deeper, focusing on infrastructure
 security.  Big topics will include:
 
+** Network Isolation
+This section discusses /network isolation/. 
+
 - network isolation
 - monitoring
 - auditing
 
-** Network Isolation
-This section discusses /network isolation/. 
 
-{{{heading(Access Points---Endpoints)}}}
+*** Endpoints---URLs to a Web Service
 
 AWS has placed a limited number of access points to the cloud to allow for more comprehensive
 monitoring of inbound and outbound network traffic.  These access points are called /endpoints/.
@@ -633,7 +634,9 @@ For example, US-West-2 is an entry point for all AWS services in that Region.
 Endpoints allow secure HTTP access (HTTPS).  This allows you to establish a secure communication
 session with your resource running in AWS services.
 
-{{{heading(Amazon Virtual Private Cloud)}}}
+*** Amazon Virtual Private Cloud---VPC
+
+{{{heading(Amazon Virtual Private Cloud---Level 3 Isolation)}}}
 
 As you build out an infrastructure, you will want to isolate certain pieces to minimize the surface
 area that can be attacked.  Additional services can be set up inside the secure infrastructure.
@@ -642,16 +645,61 @@ AWS offers the  Amazon Virtual Private Cloud, which provides a private network w
 Cloud.  Amazon VPC provides not only isolation from other customers in the private cloud, but it
 also provides Layer 3 isolation from the Internet as well. 
 
+Amazon Virtual Private Cloud (Amazon VPC) lets you provision a logically isolated section of the
+AWS Cloud where you can launch AWS resources in a virtual network that you define.  You have
+complete control over your virtual networking environment, including selection of your own IP
+address range, creation of subnets, and configuration of route tables and network gateways.  You can
+use both IPv4 and IPv6 in your VPC for secure and easy access to resources and applications.  More
+information is available at: https://aws.amazon.com/vpc/.
+
+{{{subheading(IPSec Tunnels and AWS Direct Connect)}}}
+
 The Amazon VPC uses IP address spaces, allocated by you.  These can be used to build a private
 infrastructure, where networks are isolated from the Internet.  You connect your on-premises
 environment or other VPN infrastructures to Amazon VPC using IPSec tunnels and AWS Direct Connect.
 You can also allow resources in your VPC to talk to the Internet if you choose to do so.
 
-** Network Isolation with VPC
+*** AWS Direct Connect
+AWS Direct Connect is a cloud service solution that makes it easy to establish a dedicated network
+connection from your premises to AWS.  Using AWS Direct Connect, you can establish private
+connectivity between AWS and your datacenter, office, or colocation environment, which in many
+cases can reduce your network costs, increase bandwidth throughput, and provide a more consistent
+network experience than Internet-based connections.
+
+AWS Direct Connect lets you establish a dedicated network connection between your network and one
+of the AWS Direct Connect locations.  Using industry standard 802.1q VLANs, this dedicated
+connection can be partitioned into multiple virtual interfaces.  This allows you to use the same
+connection to access public resources such as objects stored in Amazon S3 using public IP address
+space, and private resources such as Amazon EC2 instances running within an Amazon Virtual Private
+Cloud (VPC) using private IP space, while maintaining network separation between the public and
+private environments.  Virtual interfaces can be reconfigured at any time to meet your changing
+needs.
+
+More information including pricing for AWS Direct Connect is available at:
+https://aws.amazon.com/directconnect/.
+
+*** Network Isolation with VPC Subnets and Security Groups
+
+- AWS Account : 1st layer
+
+- VPC : 2nd layer
+
+  - subnets inside a VPC : logical divisions of allocated IP addresses
+
+    - private subnets : subnets without access to the Internet
+
+    - public subnets : subnets that are configured to allow access to the Internet
+
+    - NACLs : Network access control lists (list of IP addresses allowed or denied access to the
+      subnet)
+
+  - security groups : act as firewalls for associated Amazon services, e.g., EC2 instances
+
+
 A Virtual Private Cloud is a way to logically separate your AWS infrastructure from other
 customers.  The AWS Account is the first layer.  The VPC is the second layer.
 
-{{{heading(Subnets)}}}
+**** Subnets
 
 Inside the VPC, you can set up /subnets/, or logical divisions of allocated IPs.  For example, EC2
 instances can be configured to allow access to the Internet, so they are put into a /public
@@ -659,28 +707,235 @@ subnet/.
 
 {{{subheading(Network Access Control Lists---NACLs)}}}
 
-This done using NACLs, /network access control lists/.  These lists contain IPs which are allowed
-or denied access to the subnet.  They are also stateless, so if you allow something in, you must
-explicitly allow it out via a rule.
+This is done using NACLs, /network access control lists/.  These lists contain IPs which are
+allowed or denied access to the subnet.  They are also stateless, so if you allow something in, you
+must explicitly allow it out via a rule.
 
 {{{subheading(Private Subnets)}}}
 
 If you don’t want to allow a service access to the Internet, place it behind a private subnet.
 
-{{{heading(Security Groups)}}}
+**** Security Groups
 
 If you want to protect a single EC2 instance, for example, you can provision a /security group/ for
 it.  Security groups act as firewalls for associated Amazon EC2 instances, controlling both inbound
 and outbound traffic at the instance level.  This fine-grained access is defined by =allow= rules.
 Security groups are stateful so return traffic is automatically allowed.
 
-** VPC Endpoint and Private Link
+*** Routing Traffic Safetly Between VPCs
+
+{{{heading(VPC Endpoints and Private Link)}}}
+
+How to secure traffic between VPCs?  Use VPC endpoints or private links.  These allow you to route
+traffic through a secure endpoint in one VPC to another.  The traffic does not leave the AWS
+infrastructure and does not touch the public Internet, resulting in a safer path of travel.  When
+you configure a private link, you allow traffic to flow direclty between VPCs.
+
+*** Routers and Route Tables
+When you provision a VPC, it comes with an implicit router.  You must configure a route table.  A
+route table contains a set of rules, or routes, that are used to determine where network traffic is
+directed.  A subnet can only be associated with one route table at a time, but you can associate
+multiple subnets with the same route table.
+
+A default main route table is set up for a VPC, and you must associate a subnet with an actual
+route table.  It doesn’t have to be the main table; you can create a custom route table to route
+traffic accordingly.
 
 ** Detective Controls
+To improve your ability to protect your resources, you need to improve your ability to identify a
+potential security threat or incident.
+
+“Detective Controls” is a term that describes a continual improvement in monitoring of events and
+processing of logs that allow for 
+
+- auditing, 
+- automated analysis, and 
+- alarming.
+
+
+“Detective Controls” are an essential part of governance frameworks, and can be used to support
+improvement prcesses of your security operations, a legal or compliant obligation, and for threat
+identification and response efforts.
+
+There are different types of “Detective Controls”.  For example, conducting an inventory of AWS
+resources, and their detailed attributes, promotes more effective decision making and lifecycle
+controls, to help establish operational baselines.  You can also use internal auditing, an
+examination of controls related to information systems, to ensure that practices meet policy and
+requirements, and that you have set the correct automated alerting notifications based on defined
+conditions.  These controls are important reactive factors that can help your organization identify
+and understand the scope of anomalous activity.
 
 ** Auditing
+You need to audit who is doing what, what is being done, and are there ways to improve security and
+compliance across the board.  Essentially, you are inspecting your infrastructure and service usage
+to make sure nobody is harming your system.
+
+*** AWS CloudTrail
+
+#+BEGIN_QUOTE
+AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk
+auditing of your AWS account. With CloudTrail, you can log, continuously monitor, and retain
+account activity related to actions across your AWS infrastructure. CloudTrail provides event
+history of your AWS account activity, including actions taken through the AWS Management Console,
+AWS SDKs, command line tools, and other AWS services. This event history simplifies security
+analysis, resource change tracking, and troubleshooting.
+#+END_QUOTE
+
+- More information about AWS CloudTrail can be found at: https://aws.amazon.com/cloudtrail/
+
+
+CloudTrail enables you to see who is doing what in your AWS infrastructure.  You can track user
+usage of the console API calls, AWS SDKs, command-line tools, and other AWS services themselves, so
+you know who is interacting with your infrastructure.  This service is enabled by default and you
+can view account activity for the past 90 days right in the CloudTrail console.
+
+You can direct CloudTrail events to Amazon S3, Amazon CloudWatch events logs, and events.  This
+allows you to perform analysis, archive events, and remediate on an unexpected change.
+
+*** AWS Config
+
+#+BEGIN_QUOTE
+AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your
+AWS resources. Config continuously monitors and records your AWS resource configurations and allows
+you to automate the evaluation of recorded configurations against desired configurations. With
+Config, you can review changes in configurations and relationships between AWS resources, dive into
+detailed resource configuration histories, and determine your overall compliance against the
+configurations specified in your internal guidelines. This enables you to simplify compliance
+auditing, security analysis, change management, and operational troubleshooting.
+#+END_QUOTE
+
+- More information about AWS Config can be found at: https://aws.amazon.com/config/
+
+
+The fully managed service records your AWS configuration, changes to that configuration, or a
+history, and change notifications, so you are notified proactively.  You can tie this service into
+AWS CloudTrail to gain full visibility into who made the actual change at that point in time and
+what the change was.
+
+*** Amazon Inspector
+
+#+BEGIN_QUOTE
+Amazon Inspector is an automated security assessment service that helps improve the security and
+compliance of applications deployed on AWS. Amazon Inspector automatically assesses applications
+for exposure, vulnerabilities, and deviations from best practices. After performing an assessment,
+Amazon Inspector produces a detailed list of security findings prioritized by level of
+severity. These findings can be reviewed directly or as part of detailed assessment reports which
+are available via the Amazon Inspector console or API.
+
+Amazon Inspector security assessments help you check for unintended network accessibility of your
+Amazon EC2 instances and for vulnerabilities on those EC2 instances. Amazon Inspector assessments
+are offered to you as pre-defined rules packages mapped to common security best practices and
+vulnerability definitions. Examples of built-in rules include checking for access to your EC2
+instances from the internet, remote root login being enabled, or vulnerable software versions
+installed. These rules are regularly updated by AWS security researchers.
+#+END_QUOTE
+
+- More information on Amazon Inspector can be found at: https://aws.amazon.com/inspector/ 
+
+
+This service helps to improve security and compliance of your AWS deployed applications by running
+an automated security assessment.  You can use this service to check on deviations of security best
+practices, exposure of EC2 instances, and vulnerabilities.
+
+The service consists of three parts.
+
+1. Network Configuration Reachability
+
+2. Amazon Agent
+
+3. Security Assessment Service
+   This works by running an assessment based on your specific configuration choices and then
+   outputing a list of findings for potential security issues.  The resulting findings are
+   displayed in the Amazon Inspector console, and they are presented with a detailed description of
+   the security issue and a recommendation on how to fix it.
+
+   Additionally, you can retrieve findings through an API, so as to go towards the best practice of
+   automating your remediation processes.
+
+*** Trusted Advisor
+
+#+BEGIN_QUOTE
+AWS Trusted Advisor is an online tool that provides you real time guidance to help you provision
+your resources following AWS best practices.
+
+Whether establishing new workflows, developing applications, or as part of ongoing improvement,
+take advantage of the recommendations provided by Trusted Advisor on a regular basis to help keep
+your solutions provisioned optimally.
+#+END_QUOTE
+
+- More information about AWS Trusted Advisor can be found at:
+  https://aws.amazon.com/premiumsupport/technology/trusted-advisor/ 
+
+
+This service assists you in provisioning your AWS resources using best practices.  It produces a
+report under five categories:
+
+1. cost optimization
+
+2. performance
+
+3. security
+
+4. fault tolerance
+
+5. service limits
+
+
+Once you run TrustedAdvisor, you will be presented with a report that you can then drill down into.
+Each category will produce traffic light-based recommendations.  These go in increasing severity,
+where
+
+- green :: means no action recommended
+
+- orange :: means investigation needed
+
+- red :: means action recommended
+
+
+{{{heading(Some Security Best Practices)}}}
+
+Here are some of the best practices that are scanned and reported on in the Security section
+itself.  Some of these include:
+
+- S3 bucket permissions, e.g., whether you can actually access a bucket publically or privately;
+
+- security groups, e.g., whether your ports are unrestricted so you should go in and configure
+  rules to close those actual loopholes;
+
+- IAM use, e.g., usage of users, roles, policies, and so forth;
+
+- MFA on root account;
+
+- exposed access keys, e.g., make sure you do not have any hard-coded somewhere;
+
+- IAM password policies, e.g., rotation of passwords to avoid credentials from becoming stale;
 
 ** Monitoring CloudWatch and CloudWatch Logs
+Monitoring is collecting, tracking, and displaying data and statistics related to your
+infrastructure.  In AWS Cloud, there are multiple available services and tools to help you monitor
+your AWS resources and applications.
+
+*** Amazon CloudWatch
+CloudWatch is basically a metrics repository.  AWs services, such as EC2, put metrics into the
+repository, and you retrieve statistics based on those metrics.  If you put your own custom metrics
+into the repository, you can retrieve the statistics on those metrics as well.  When a certain
+metric crosses a threshhold that you set up, CloudWatch can generate an alarm.  An alarm watches a
+single metric over a specific period of time and performs one or more specific actions based on the
+value of the metric relative to a threshhold over time.  The action is a notification sent to an
+Amazon SNS topic or an auto scaling policy.
+
+You can use CloudWatch logs to monitor, store, and access your log files from multiple sources.
+Here are some use cases for using logs.
+
+- collect and store application logs and server operation system logs.
+
+- use CloudTrail to capture API activities and send them to CloudWatch logs.
+
+- log Route 53 DNS queries into CloudWatch logs.
+
+- use CloudWatch logs to retain and archive log data in S3.
+
+- use CloudWatch Logs Insights to interactively search and analyze your log data.
 
 ** Monitoring Guard Duty and Security Hub
 
